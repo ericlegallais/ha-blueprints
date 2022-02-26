@@ -16,7 +16,7 @@ blueprint:
       description: Select the cover that the automation is intended to target.
       selector:
         entity:
-          domain: covers
+          domain: cover
     up_3x:
       name: Press On (3x)
       description: Action to run on button press UP 3x.
