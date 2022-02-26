@@ -1,0 +1,136 @@
+blueprint:
+  name: Zooz Zen71 (zwave_js) control covers
+  description: Create automations for the Zooz Zen71 for zwave_js. Up 1x press have been set to control the target cover device and cannot be set to custom actions. Single press will toggle open (UP) and close (DOWN). Double presses (Up and Down) will stop the cover.
+  source_url: https://github.com/elegallais/ha_blueprints/control_covers_with_zooz_zen71.yaml
+  domain: automation
+  input:
+    zooz_switch:
+      name: Zooz Zen71 Switch
+      description: List of available zwave devices to configure. Please select the Zooz Zen Switch you want to setup.
+      selector:
+        device:
+          integration: zwave_js
+          manufacturer: Zooz
+    target_device:
+      name: Target Device
+      description: Select the cover that the automation is intended to target.
+      selector:
+        entity:
+          domain: covers
+    up_3x:
+      name: Press On (3x)
+      description: Action to run on button press UP 3x.
+      default: []
+      selector:
+        action: {}
+    up_4x:
+      name: Press On (4x)
+      description: Action to run on button press UP 4x.
+      default: []
+      selector:
+        action: {}
+    up_5x:
+      name: Press On (5x)
+      description: Action to run on button press UP 5x.
+      default: []
+      selector:
+        action: {}
+    up_held:
+      name: Press On (held)
+      description: Action to run on button press UP HOLD.
+      default: []
+      selector:
+        action: {}
+    up_released:
+      name: Release On
+      description: Action to run on button press UP RELEASE.
+      default: []
+      selector:
+        action: {}
+    down_3x:
+      name: Press Off (3x)
+      description: Action to run on button press DOWN 3x.
+      default: []
+      selector:
+        action: {}
+    down_4x:
+      name: Press Off (4x)
+      description: Action to run on button press DOWN 4x.
+      default: []
+      selector:
+        action: {}
+    down_5x:
+      name: Press Off (5x)
+      description: Action to run on button press DOWN 5x.
+      default: []
+      selector:
+        action: {}
+    down_held:
+      name: Press Off (held)
+      description: Action to run on button press DOWN HOLD.
+      default: []
+      selector:
+        action: {}
+    down_released:
+      name: Release Off
+      description: Action to run on button press DOWN RELEASE.
+      default: []
+      selector:
+        action: {}
+mode: single
+max_exceeded: silent
+variables:
+  device_id: !input 'zooz_switch'
+trigger:
+- platform: event
+  event_type: zwave_js_value_notification
+  event_data:
+    command_class_name: Central Scene
+    device_id: !input 'zooz_switch'
+action:
+- variables:
+    scene_id: '{{ trigger.event.data.label }}'
+    scene_value: '{{ trigger.event.data.value }}'
+- choose:
+  - conditions: '{{ scene_id == ''Scene 001'' }}' # Scene 001 is UP
+    sequence:
+    - choose:
+      - conditions: '{{ scene_value == ''KeyPressed'' }}' # This is 1x
+        sequence:
+        - service: cover.open_cover
+          entity_id: !input 'target_device'
+      - conditions: '{{ scene_value == ''KeyPressed2x'' }}'
+        sequence:
+        - service: cover.stop_cover
+          entity_id: !input 'target_device'
+      - conditions: '{{ scene_value == ''KeyPressed3x'' }}'
+        sequence: !input 'up_3x'
+      - conditions: '{{ scene_value == ''KeyPressed4x'' }}'
+        sequence: !input 'up_4x'
+      - conditions: '{{ scene_value == ''KeyPressed5x'' }}'
+        sequence: !input 'up_5x'
+      - conditions: '{{ scene_value == ''KeyHeldDown'' }}'
+        sequence: !input 'up_held'
+      - conditions: '{{ scene_value == ''KeyReleased'' }}'
+        sequence: !input 'up_released'
+  - conditions: '{{ scene_id == ''Scene 002'' }}' # Scene 002 is down
+    sequence:
+    - choose:
+      - conditions: '{{ scene_value == ''KeyPressed'' }}'
+        sequence:
+        - service: cover.close_cover
+          entity_id: !input 'target_device'
+      - conditions: '{{ scene_value == ''KeyPressed2x'' }}'
+        sequence:
+        - service: cover.stop_cover
+          entity_id: !input 'target_device'
+      - conditions: '{{ scene_value == ''KeyPressed3x'' }}'
+        sequence: !input 'down_3x'
+      - conditions: '{{ scene_value == ''KeyPressed4x'' }}'
+        sequence: !input 'down_4x'
+      - conditions: '{{ scene_value == ''KeyPressed5x'' }}'
+        sequence: !input 'down_5x'
+      - conditions: '{{ scene_value == ''KeyHeldDown'' }}'
+        sequence: !input 'down_held'
+      - conditions: '{{ scene_value == ''KeyReleased'' }}'
+        sequence: !input 'down_released'
