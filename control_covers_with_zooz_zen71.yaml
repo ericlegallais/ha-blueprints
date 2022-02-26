@@ -1,7 +1,7 @@
 blueprint:
   name: Zooz Zen71 (zwave_js) control covers
   description: Create automations for the Zooz Zen71 for zwave_js. Up 1x press have been set to control the target cover device and cannot be set to custom actions. Single press will toggle open (UP) and close (DOWN). Double presses (Up and Down) will stop the cover.
-  source_url: https://github.com/elegallais/ha_blueprints/control_covers_with_zooz_zen71.yaml
+  source_url: https://github.com/ericlegallais/ha-blueprints/blob/main/control_covers_with_zooz_zen71.yaml
   domain: automation
   input:
     zooz_switch:
