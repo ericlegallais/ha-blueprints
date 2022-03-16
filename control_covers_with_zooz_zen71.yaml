@@ -35,18 +35,6 @@ blueprint:
       default: []
       selector:
         action: {}
-    up_held:
-      name: Press On (held)
-      description: Action to run on button press UP HOLD.
-      default: []
-      selector:
-        action: {}
-    up_released:
-      name: Release On
-      description: Action to run on button press UP RELEASE.
-      default: []
-      selector:
-        action: {}
     down_3x:
       name: Press Off (3x)
       description: Action to run on button press DOWN 3x.
@@ -62,18 +50,6 @@ blueprint:
     down_5x:
       name: Press Off (5x)
       description: Action to run on button press DOWN 5x.
-      default: []
-      selector:
-        action: {}
-    down_held:
-      name: Press Off (held)
-      description: Action to run on button press DOWN HOLD.
-      default: []
-      selector:
-        action: {}
-    down_released:
-      name: Release Off
-      description: Action to run on button press DOWN RELEASE.
       default: []
       selector:
         action: {}
@@ -110,9 +86,13 @@ action:
       - conditions: '{{ scene_value == ''KeyPressed5x'' }}'
         sequence: !input 'up_5x'
       - conditions: '{{ scene_value == ''KeyHeldDown'' }}'
-        sequence: !input 'up_held'
+        sequence:
+        - service: cover.open_cover
+          entity_id: !input 'target_device'
       - conditions: '{{ scene_value == ''KeyReleased'' }}'
-        sequence: !input 'up_released'
+        sequence:
+        - service: cover.stop_cover
+          entity_id: !input 'target_device'
   - conditions: '{{ scene_id == ''Scene 002'' }}' # Scene 002 is down
     sequence:
     - choose:
@@ -131,6 +111,10 @@ action:
       - conditions: '{{ scene_value == ''KeyPressed5x'' }}'
         sequence: !input 'down_5x'
       - conditions: '{{ scene_value == ''KeyHeldDown'' }}'
-        sequence: !input 'down_held'
+        sequence:
+        - service: cover.close_cover
+          entity_id: !input 'target_device'
       - conditions: '{{ scene_value == ''KeyReleased'' }}'
-        sequence: !input 'down_released'
+        sequence:
+        - service: cover.stop_cover
+          entity_id: !input 'target_device'
