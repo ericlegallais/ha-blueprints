@@ -1,0 +1,198 @@
+blueprint:
+  name: Lutron Keypads 6 buttons Raise and Lower
+  description: Create automations for the Lutron Keypad (RRD) with the Lutron integration (Not Lutron Caseta)
+  source_url: https://github.com/ericlegallais/ha-blueprints/
+  domain: automation
+  input:
+    lutron_kp_button1:
+      name: Keypad Button 1 ID
+      description: This is the id of the button linked to the lutron_event, e.g. kitchen_keypad_unknown_button_1
+    lutron_kp_button2:
+      name: Keypad Button 2 ID
+      description: This is the id of the button linked to the lutron_event, e.g. kitchen_keypad_unknown_button_2
+    lutron_kp_button3:
+      name: Keypad Button 3 ID
+      description: This is the id of the button linked to the lutron_event, e.g. kitchen_keypad_unknown_button_3
+    lutron_kp_button4:
+      name: Keypad Button 4 ID
+      description: This is the id of the button linked to the lutron_event, e.g. kitchen_keypad_unknown_button_4
+    lutron_kp_button5:
+      name: Keypad Button 5 ID
+      description: This is the id of the button linked to the lutron_event, e.g. kitchen_keypad_unknown_button_5
+    lutron_kp_button6:
+      name: Keypad Button 6 ID
+      description: This is the id of the button linked to the lutron_event, e.g. kitchen_keypad_unknown_button_6
+    lutron_kp_raise:
+      name: Keypad Raise Button ID
+      description: This is the id of the raise button linked to the lutron_event, e.g. kitchen_keypad_raise
+    lutron_kp_lower:
+      name: Keypad Lower Button ID
+      description: This is the id of the lower button linked to the lutron_event, e.g. kitchen_keypad_lower
+    button1_press:
+      name: Action Press Button 1
+      description: Action to run when user presses button 1.
+      default: []
+      selector:
+        action: {}
+    button2_press:
+      name: Action Press Button 2
+      description: Action to run when user presses button 2.
+      default: []
+      selector:
+        action: {}
+    button3_press:
+      name: Action Press Button 3
+      description: Action to run when user presses button 3.
+      default: []
+      selector:
+        action: {}
+    button4_press:
+      name: Action Press Button 4
+      description: Action to run when user presses button 4.
+      default: []
+      selector:
+        action: {}
+    button5_press:
+      name: Action Press Button 5
+      description: Action to run when user presses button 5.
+      default: []
+      selector:
+        action: {}
+    button6_press:
+      name: Action Press Button 6
+      description: Action to run when user presses button 6.
+      default: []
+      selector:
+        action: {}
+    button_raise_press:
+      name: Action Press Button Raise
+      description: Action to run when user presses the raise button.
+      default: []
+      selector:
+        action: {}
+    button_raise_release:
+      name: Action Release Button Raise
+      description: Action to run when user releases the raise button.
+      default: []
+      selector:
+        action: {}
+    button_lower_press:
+      name: Action Press Button Lower
+      description: Action to run when user presses the lower button.
+      default: []
+      selector:
+        action: {}
+    button_lower_release:
+      name: Action Release Button Lower
+      description: Action to run when user releases the lower button.
+      default: []
+      selector:
+        action: {}
+mode: single
+trigger:
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_button1
+      action: single
+    id: pressed_bt_1
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_button2
+      action: single
+    id: pressed_bt_2
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_button3
+      action: single
+    id: pressed_bt_3
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_button4
+      action: single
+    id: pressed_bt_4
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_button5
+      action: single
+    id: pressed_bt_5
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_button6
+      action: single
+    id: pressed_bt_6
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_raise
+      action: pressed
+    id: pressed_raise
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_raise
+      action: released
+    id: released_raise
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_lower
+      action: pressed
+    id: pressed_lower
+  - platform: event
+    event_type: lutron_event
+    event_data:
+      id: !input lutron_kp_lower
+      action: released
+    id: released_lower
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: pressed_bt_1
+        sequence: !input button1_press
+      - conditions:
+          - condition: trigger
+            id: pressed_bt_2
+        sequence: !input button2_press
+      - conditions:
+          - condition: trigger
+            id: pressed_bt_3
+        sequence: !input button3_press
+      - conditions:
+          - condition: trigger
+            id: pressed_bt_4
+        sequence: !input button4_press
+      - conditions:
+          - condition: trigger
+            id: pressed_bt_5
+        sequence: !input button4_press
+      - conditions:
+          - condition: trigger
+            id: pressed_bt_6
+        sequence: !input button6_press
+      - conditions:
+          - condition: trigger
+            id: pressed_raise
+        sequence: !input button_raise_press
+
+      - conditions:
+          - condition: trigger
+            id: released_raise
+        sequence: !input button_raise_release
+
+      - conditions:
+          - condition: trigger
+            id: pressed_lower
+        sequence: !input button_lower_press
+
+      - conditions:
+          - condition: trigger
+            id: released_lower
+        sequence: !input button_lower_release
