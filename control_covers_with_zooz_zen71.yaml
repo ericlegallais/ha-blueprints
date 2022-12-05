@@ -65,56 +65,56 @@ trigger:
     device_id: !input 'zooz_switch'
 action:
 - variables:
-    scene_id: '{{ trigger.event.data.label }}'
-    scene_value: '{{ trigger.event.data.value }}'
+    scene_id: '{{ trigger.event.data.property_key }}'
+    scene_value: '{{ trigger.event.data.value_raw }}'
 - choose:
-  - conditions: '{{ scene_id == ''Scene 001'' }}' # Scene 001 is UP
+  - conditions: '{{ scene_id == ''001'' }}' # Scene 001 is UP
     sequence:
     - choose:
-      - conditions: '{{ scene_value == ''KeyPressed'' }}' # This is 1x
+      - conditions: '{{ scene_value == ''0'' }}' # This is 1x KeyPressed
         sequence:
         - service: cover.open_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''KeyPressed2x'' }}'
+      - conditions: '{{ scene_value == ''3'' }}' # This is KeyPressed2x
         sequence:
         - service: cover.stop_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''KeyPressed3x'' }}'
+      - conditions: '{{ scene_value == ''4'' }}' # This is KeyPressed3x
         sequence: !input 'up_3x'
-      - conditions: '{{ scene_value == ''KeyPressed4x'' }}'
+      - conditions: '{{ scene_value == ''5'' }}' # This is KeyPressed4x
         sequence: !input 'up_4x'
-      - conditions: '{{ scene_value == ''KeyPressed5x'' }}'
+      - conditions: '{{ scene_value == ''6'' }}' # This is KeyPressed5x
         sequence: !input 'up_5x'
-      - conditions: '{{ scene_value == ''KeyHeldDown'' }}'
+      - conditions: '{{ scene_value == ''2'' }}' # this is KeyHeldDown
         sequence:
         - service: cover.open_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''KeyReleased'' }}'
+      - conditions: '{{ scene_value == ''1'' }}' # this is KeyReleased 
         sequence:
         - service: cover.stop_cover
           entity_id: !input 'target_device'
-  - conditions: '{{ scene_id == ''Scene 002'' }}' # Scene 002 is down
+  - conditions: '{{ scene_id == ''002'' }}' # Scene 002 is down
     sequence:
     - choose:
-      - conditions: '{{ scene_value == ''KeyPressed'' }}'
+      - conditions: '{{ scene_value == ''0'' }}' # This is KeyPressed
         sequence:
         - service: cover.close_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''KeyPressed2x'' }}'
+      - conditions: '{{ scene_value == ''3'' }}' # This is KeyPressed2x
         sequence:
         - service: cover.stop_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''KeyPressed3x'' }}'
+      - conditions: '{{ scene_value == ''4'' }}' # This is KeyPressed3x
         sequence: !input 'down_3x'
-      - conditions: '{{ scene_value == ''KeyPressed4x'' }}'
+      - conditions: '{{ scene_value == ''5'' }}' # This is KeyPressed4x
         sequence: !input 'down_4x'
-      - conditions: '{{ scene_value == ''KeyPressed5x'' }}'
+      - conditions: '{{ scene_value == ''6'' }}' # This is KeyPressed5x
         sequence: !input 'down_5x'
-      - conditions: '{{ scene_value == ''KeyHeldDown'' }}'
+      - conditions: '{{ scene_value == ''2'' }}' # This is KeyHeldDown
         sequence:
         - service: cover.close_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''KeyReleased'' }}'
+      - conditions: '{{ scene_value == ''1'' }}' # This is KeyReleased
         sequence:
         - service: cover.stop_cover
           entity_id: !input 'target_device'
