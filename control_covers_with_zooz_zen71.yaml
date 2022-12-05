@@ -71,50 +71,50 @@ action:
   - conditions: '{{ scene_id == ''001'' }}' # Scene 001 is UP
     sequence:
     - choose:
-      - conditions: '{{ scene_value == ''0'' }}' # This is 1x KeyPressed
+      - conditions: '{{ scene_value == 0 }}' # This is 1x KeyPressed
         sequence:
         - service: cover.open_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''3'' }}' # This is KeyPressed2x
+      - conditions: '{{ scene_value == 3 }}' # This is KeyPressed2x
         sequence:
         - service: cover.stop_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''4'' }}' # This is KeyPressed3x
+      - conditions: '{{ scene_value == 4 }}' # This is KeyPressed3x
         sequence: !input 'up_3x'
-      - conditions: '{{ scene_value == ''5'' }}' # This is KeyPressed4x
+      - conditions: '{{ scene_value == 5 }}' # This is KeyPressed4x
         sequence: !input 'up_4x'
-      - conditions: '{{ scene_value == ''6'' }}' # This is KeyPressed5x
+      - conditions: '{{ scene_value == 6 }}' # This is KeyPressed5x
         sequence: !input 'up_5x'
-      - conditions: '{{ scene_value == ''2'' }}' # this is KeyHeldDown
+      - conditions: '{{ scene_value == 2 }}' # this is KeyHeldDown
         sequence:
         - service: cover.open_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''1'' }}' # this is KeyReleased 
+      - conditions: '{{ scene_value == 1 }}' # this is KeyReleased 
         sequence:
         - service: cover.stop_cover
           entity_id: !input 'target_device'
   - conditions: '{{ scene_id == ''002'' }}' # Scene 002 is down
     sequence:
     - choose:
-      - conditions: '{{ scene_value == ''0'' }}' # This is KeyPressed
+      - conditions: '{{ scene_value == 0 }}' # This is KeyPressed
         sequence:
         - service: cover.close_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''3'' }}' # This is KeyPressed2x
+      - conditions: '{{ scene_value == 3 }}' # This is KeyPressed2x
         sequence:
         - service: cover.stop_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''4'' }}' # This is KeyPressed3x
+      - conditions: '{{ scene_value == 4 }}' # This is KeyPressed3x
         sequence: !input 'down_3x'
-      - conditions: '{{ scene_value == ''5'' }}' # This is KeyPressed4x
+      - conditions: '{{ scene_value == 5 }}' # This is KeyPressed4x
         sequence: !input 'down_4x'
-      - conditions: '{{ scene_value == ''6'' }}' # This is KeyPressed5x
+      - conditions: '{{ scene_value == 6 }}' # This is KeyPressed5x
         sequence: !input 'down_5x'
-      - conditions: '{{ scene_value == ''2'' }}' # This is KeyHeldDown
+      - conditions: '{{ scene_value == 2 }}' # This is KeyHeldDown
         sequence:
         - service: cover.close_cover
           entity_id: !input 'target_device'
-      - conditions: '{{ scene_value == ''1'' }}' # This is KeyReleased
+      - conditions: '{{ scene_value == 1 }}' # This is KeyReleased
         sequence:
         - service: cover.stop_cover
           entity_id: !input 'target_device'
